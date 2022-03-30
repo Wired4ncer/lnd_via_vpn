@@ -1,21 +1,21 @@
 # Securely connecting lightning node to clear net through self hosted VPN server.
 
 ## Pre-word:
-Lightning network is growing in popularity and new nodes are spawning daily. That is great news for decentralization of network, more liquidity and exposure in general, but there is also downside to it. As most new users start with pre compiled lightning node solutions like MyNode, Umbrel or RaspiBlitz they all automatically connect through TOR network. With more than ten thousand such nodes its uncertain whether TOR network can handle all the new traffic in reliable manner for the future. We can already see delays and occasional dropouts of circuits in certain geolocations. That is not good for TOR users and neither for reliability of Lightning Network in general. I would like to propose for those of you who found TOR connection not to be reliable enough for serious Lightning Node operator a solution how to use your own self hosted VPN server to use as a gateway for your node without compromising its security.
+Lightning network is growing in popularity and new nodes are spawning daily. That is great news for decentralization of the network, more liquidity and exposure in general, but there is also a downside to it. As most new users start with pre compiled lightning node solutions like MyNode, Umbrel or RaspiBlitz they all automatically connect through TOR network. With more than ten thousand such nodes its uncertain whether TOR network can handle all the new traffic in a reliable manner in the future. We can already see delays and occasional dropouts of circuits in certain geolocations. That is not good for TOR users and neither for reliability of Lightning Network in general. I would like to propose for those of you who find TOR connection not reliable enough, for serious Lightning Node operators, a solution to use your own self hosted VPN server to use as a gateway for your node, without compromising its security.
 
-This guide is intended for users with basic Linux administration and Networking skills. I will try to explain the details as clear as possible, but you may run into your system specific issues you will have to deal with. Also I'm certified Linux sysadmin, but not network engineer so my network settings were result of my research, trial & error. If you will find details that could be improved, please commit!
+This guide is intended for users with basic Linux administration and Networking skills. I will try to explain the details as clearly as possible, but you may run into system specific issues you will have to deal with. Also I'm a certified Linux sysadmin, but not a network engineer so my network settings were result of my own research, trial & error. If you find details that could be improved, please commit!
 
 Tested with MyNode v0.2.53 64bit (should work with other implementations), Rasberry Pi 4B 8GB, VPS Ubuntu 18.3, 1 core, 2GB ram, 15GB HDD & Linux Ubuntu laptop I used during configuration, testing and setup.
 
 ## Benefits:
-- Private IPv4 address for your use.
-- Secure way how to connect to clear net (only one port open for connection to lnd).
-- Reducing latency for both connections and transactions.
+- A private IPv4 address for your use.
+- A secure way how to connect to clear net (only one port open for connection to lnd).
+- Reduced latency for both connections and transactions.
 - Allowing direct connections from other clear net nodes.
 - Full control of your infrastructure.
 - Easy integration with other lightning tools (BTCpay, LNBits).
 - Not being reliant solely on TOR connection.
-- Learning oportunity
+- A learning oportunity
 
 ## Downsides:
 - More technical knowledge is required.
@@ -37,17 +37,17 @@ Tested with MyNode v0.2.53 64bit (should work with other implementations), Rasbe
 
 
 ### Choosing your server
-There is lot of providers with virtuals servers so few key considerations are:
+There are a lot of providers with virtuals servers so a few key considerations are:
 
-- **Anonymity**. Anonymous VPS servers are a bit harder to find and usually cost little bit more. Also don't forget that just because your service provider doesn't strickly require KYC they are anonymous. Most will only let you pay by credit card or PayPal. Its a bit harder to find one accepting Bitcoin.
+- **Anonymity**. Anonymous VPS servers are a bit harder to find and usually cost little bit more. Also don't forget that just because your service provider doesn't strictly require KYC they can still be anonymous. Most will only let you pay by credit card or PayPal. Its a bit harder to find one accepting Bitcoin.
 
-- **Location**. Latency will increase if your VPS is too far from physical location of your node. Not that you would need to have provider in the same town, but you should not get one on the other side of the planet to keep decent speed.
+- **Location**. Latency will increase if your VPS is too far from the physical location of your node. Not that you need to have a provider in the same town, but you should not get one on the other side of the planet to keep a decent speed.
 
-- **Price**. You don’t need strong hardware for our purpose. Most likely you will be fine with the cheap option. I’m running my VPS with 1 cpu core, 2 GB mem and 15GB HDD for about 6$ a month. 
+- **Price**. You don’t need strong hardware for this purpose. Most likely you will be fine with the cheap option. I’m running my VPS with 1 cpu core, 2 GB mem and 15GB HDD for about 6$ a month. 
 
-- **Access**. You want to have full access to your server with `shh root:password` and not have any firewall blocking your network ports. Most of the VPS providers have this by default, but just so you keep it in mind. You also want to be sure to receive public IPV4 address for your node. (IPV6 connection is also possible, but in this guide I’m going to focus on setup with IPV4).
+- **Access**. You want to have full access to your server with `shh root:password` and not have any firewall blocking your network ports. Most of the VPS providers have this by default, but just keep it in mind. You also want to be sure to receive public IPV4 address for your node. (IPV6 connection is also possible, but in this guide I’m going to focus on setup with IPV4).
 
-Examples of few VPS providers:
+Examples of a few VPS providers:
 
 - [Digital Ocean](https://www.digitalocean.com/products/droplets) (NO KYC, fiat payments, servers in US, EU, India, CAD, Singapore, Austria, from 5$).
 - [WEDOS hosting](https://www.wedos.com/vps-ssd) (NO KYC, accepts Bitcoin, only servers in Czech Republic).
@@ -57,7 +57,7 @@ When you purchase your VPS server and receive your login details, proceed furthe
 
 
 ### VPS setup
-In this section we will go over basic configuration to make the server secure and prepared for VPN installation.
+In this section we will go over the basic configuration to make the server secure and prepared for VPN installation.
 
 Start by login in using ssh or any other client ([putty](https://www.ssh.com/academy/ssh/putty/download) for windows for example).
 ```
@@ -71,7 +71,7 @@ Make sure the password you use is sufficient and **avoid** using username that c
   $ usermod -aG sudo {myuser}
 ```
 **Secure access** </br>
-Block root ssh login (so attacker can't try to brute force its way through root account). You can optionally change the default SSH port 22 to some non standard port. I think that if you have chosen good username and strong password you should not need to go further, but there are additional steps you can take to secure ssh login even further. You can read more about enhancing your SSH login security in this [article](https://phoenixnap.com/kb/linux-ssh-security).
+Block root ssh login (so attacker can't try to brute force its way through root account). You can optionally change the default SSH port 22 to some non standard port. I think that if you have chosen a good username and strong password you should not need to go further, but there are additional steps you can take to secure ssh login even further. You can read more about enhancing your SSH login security in this [article](https://phoenixnap.com/kb/linux-ssh-security).
 
 Use your favorite text editor to edit the config.
 ```
@@ -85,7 +85,7 @@ save your changes and restart the service
 ```
 $ service sshd restart
 ```
-**NOTE**: If you decide to change SSH port to non standard you must update firewall rules or you may lock yourself out of the system! Run `sudo ufw allow {new SSH port}`  
+**NOTE**: If you decide to change SSH port to non standard you must update the firewall rules or you may lock yourself out of the system! Run `sudo ufw allow {new SSH port}`  
 
 **Firewall**</br> 
 Install and setup basic rules.
@@ -104,7 +104,7 @@ SWAP will help your system in case it would be running low on memory. First chec
 ```
 $ sudo cat /proc/swapfile 
 ```
-If your system have at least 1GB of SWAP you can skip next section. Otherwise add 2GB of SWAP partition.`
+If your system has at least 1GB of SWAP you can skip the next section. Otherwise add 2GB of SWAP partition.`
 
 ```
 $ sudo fallocate -l 2G /swapfile
@@ -139,7 +139,7 @@ If you see your swap there, you are all good. You can reboot your server and log
 This is it! Your server is now ready to be used! 👍
 
 ### OpenVPN server
-For this step I followed guide from Digital Ocean that I will link for you bellow. The guide is flexible and let you choose between different version of Ubuntu server. I have used Ubuntu 18.3, but most providers will likely give you 20.04 at this time. 
+For this step I followed a guide from Digital Ocean that I will link for you bellow. The guide is flexible and let you choose between different versions of Ubuntu server. I have used Ubuntu 18.3, but most providers will likely give you 20.04 at this time. 
 
 The guide will take you through installing OpenVPN, configuring OPVN server, generating & signing keys and lastly transferring the files to your **client** machine and testing connection. The guide assumes you have separate Ubuntu machine to serve as your CA server. I have used my home laptop running Linux for that purpose, but I think you can use the same VPS server as CA, but I would move the `ca.key` out of the server when I'm done with signing and store it securely out of the server in case I need to issues certificates for more clients in the future. That way you negate any potential risk in case your server would get compromised.
 
@@ -148,7 +148,7 @@ Please follow up the guide and setup your OpenVPN server as per: [How To Set Up 
 ### Connecting your Client Node</br>
 You should have by now your `client1.ovpn` file (may have different name if you have chosen so), but we will also need `ta.key` from your VPN server for setting up OpenVPN as a service little bit later.
 
-Copy this file from your **SERVER** `~/client-configs/keys/ta.key` or `~/etc/openvpn/ta.key` and put it together with your `client1.ovpn` to the **NODE** `~/etc/openvpn/` an example of command to move files between servers `scp username@server.ip:/path/to/keys/ta.key /path/where/to/copy`
+Copy this file from your **SERVER** `~/client-configs/keys/ta.key` or `~/etc/openvpn/ta.key` and put it together with your `client1.ovpn` to the **NODE** `~/etc/openvpn/` an example of a command to move files between servers `scp username@server.ip:/path/to/keys/ta.key /path/where/to/copy`
 
 **Run OpenVPN as a service**
 </br>Most people have their VPN configuration saved with an *.ovpn file extension. But if you change the extension to *.conf, and make sure the file is located in `/etc/openvpn`, you’ll be able to manage the connection like you do any other system service.
@@ -159,7 +159,7 @@ Then rename the profile to give it a *.conf file extension. In our case, the Ope
 $ sudo mv /etc/openvpn/client1.ovpn /etc/openvpn/client1.conf
 ```
 ta.key may be required to be copied to the **client_node** /etc/openvpn in order for VPN to work well. 
-</br>Harden the permissions to the files.
+</br>Tighten the permissions to the files.
 ```
 $ sudo chown root:root /etc/openvpn/client1.conf
 $ sudo chmod 400 /etc/openvpn/client1.conf
@@ -176,7 +176,7 @@ and check its status with
 $sudo systemctl status openvpn@client1 
 ```
 
-Output should look something like this:
+The output should look something like this:
 
 <a href="https://ibb.co/9WRNtcq"><img src="https://i.ibb.co/ZxyVmGh/ovpn-status.png" alt="ovpn-status" border="0"></a>
 
@@ -198,11 +198,11 @@ $ curl https://api.ipify.org
 ```
 if you received back your VPN server IP address back than the traffic is being routed correctly. Good work!
 
-</br>Now lets check your tunnel ip address and gateway and pull some info you will need it in next step.
+</br>Now lets check your tunnel ip address and gateway and pull some info you will need it in the next step.
 ```
 $ ip addr | grep inet
 ```
-output will look something like this
+The output will look something like this
 
 <a href="https://ibb.co/rdL5sP4"><img src="https://i.ibb.co/HhMGdvn/ip-inet.png" alt="ip-inet" border="0"></a>
 
@@ -231,7 +231,7 @@ $ sudo iptables -A FORWARD -i eth0 -o tun+ -m state --state RELATED,ESTABLISHED 
 $ sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
 $ sudo iptables -A OUTPUT -o tun+ -j ACCEPT
 ```
-First section of the iptables is needed in order for the server to route the traffic to your node. Second section is general settings of iptables for VPN servers. As iptables are outside of my good understanding I would appreciate if I can get feedback whether this settings should be changed somehow. Thank you
+The first section of the iptables is needed in order for the server to route the traffic to your node. The second section is general settings of iptables for VPN servers. As iptables are outside of my good understanding I would appreciate if I can get feedback whether this settings should be changed somehow. Thank you
 
 Get the IP tables to persist through restart, choose yes and yes when asked to save the current ip tables.
 
@@ -253,7 +253,7 @@ $ systemctl restart netfilter-persistent
 ```
 In case you need to correct any mistakes you can find the iptables at `$ sudo nano /etc/iptables/rules.v4` and do the changes there. If sudo permission would not be enough you can login as `root` using `$ sudo su` command and edit the file from there. When you finish `exit` back to your user.
 
-Reload firewall to apply changes 
+Reload the firewall to apply changes 
 ```
 $ sudo ufw reload
 ```
@@ -272,10 +272,10 @@ listen=0.0.0.0:9735
 tor.streamisolation=false
 tor.skip-proxy-for-clearnet-targets=true
 ```
-Restart your node. If everything is working as intended your node should connect though VPN server and route all its traffic through it. It should also be reachable from cleatnet on your servers public ip and port 9735. You can test this out by running `$ nc -vz {YOUR.SERVER.IP} 9735` on an outside machine to see if your node can get reached from internet.
+Restart your node. If everything is working as intended your node should connect though the VPN server and route all its traffic through it. It should also be reachable from cleatnet on your servers public ip and port 9735. You can test this out by running `$ nc -vz {YOUR.SERVER.IP} 9735` on an outside machine to see if your node can get reached from internet.
 
 ## End notes
-This setup could be improved by spliting the TOR traffic not to use VPN and exit the node directly. This way there would be redundancy in case VPN server would stop working for some reason, but at the moment I'm not sure how to set it up correcly. I will update the guide once I figure it out, or I'm very open to receive suggestions from any of you.
+This setup could be improved by spliting the TOR traffic not to use VPN and exit the node directly. This way there would be redundancy in case the VPN server stops working for some reason, but at the moment I'm not sure how to set it up correcly. I will update the guide once I figure it out, or I'm very open to receive suggestions from any of you.
 
 You can contact me on **Telegram [@wiredancer](https://t.me/wiredancer)**
 
