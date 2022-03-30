@@ -39,7 +39,7 @@ Tested with MyNode v0.2.53 64bit (should work with other implementations), Rasbe
 ### Choosing your server
 There are a lot of providers with virtuals servers so a few key considerations are:
 
-- **Anonymity**. Anonymous VPS servers are a bit harder to find and usually cost little bit more. Also don't forget that just because your service provider doesn't strictly require KYC they can still be anonymous. Most will only let you pay by credit card or PayPal. Its a bit harder to find one accepting Bitcoin.
+- **Anonymity**. Anonymous VPS servers are a bit harder to find and usually cost little bit more. Also don't forget that just because your service provider doesn't strictly require KYC they are anonymous. Most will only let you pay by credit card or PayPal which has your name connected to it. Its a bit harder to find one accepting Bitcoin.
 
 - **Location**. Latency will increase if your VPS is too far from the physical location of your node. Not that you need to have a provider in the same town, but you should not get one on the other side of the planet to keep a decent speed.
 
