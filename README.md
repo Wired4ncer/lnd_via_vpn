@@ -145,6 +145,13 @@ The guide will take you through installing OpenVPN, configuring OPVN server, gen
 
 Please follow up the guide and setup your OpenVPN server as per: [How To Set Up an OpenVPN Server on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-18-04). Please note that Ubuntu 20.04 is at the bottom of the scrolling menu.
 
+Please make sure you will follow the optional setup settings and your server.conf will have these **uncommented**. This will ensure all the traffic is routed through the VPN.
+```
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 208.67.222.222"
+push "dhcp-option DNS 208.67.220.220"
+```
+
 ### Connecting your Client Node</br>
 You should have by now your `client1.ovpn` file (may have different name if you have chosen so), but we will also need `ta.key` from your VPN server for setting up OpenVPN as a service little bit later.
 
