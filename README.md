@@ -207,8 +207,6 @@ The output will look something like this
 <a href="https://ibb.co/rdL5sP4"><img src="https://i.ibb.co/HhMGdvn/ip-inet.png" alt="ip-inet" border="0"></a>
 
 </br>**inet** in **tun0** section is your {NODE_TUN_IP} for the next step (10.8.0.10 for me)
-</br>**peer** in **tun0** section is your {TUN_GATEWAY} for the next step (10.8.0.9 for me)
-</br>**inet** in **eth0** section is your {NODE_LOCAL_IP} for the next step (192.168.1.73 for me)
 </br> {SERVER_PUB_IP} is your **VPN_SERVER** public IPV4. 
 
 With this we can carry on to the next step!
@@ -219,9 +217,6 @@ With this we can carry on to the next step!
 Setup port forwarding
 ```
 $ sudo iptables -t nat -I PREROUTING 1 -d {SERVER_PUB_IP} -p tcp --dport 9735 -j DNAT --to-dest {NODE_TUN_IP}:9735
-$ sudo iptables -t nat -I POSTROUTING 1 -d {NODE_LOCAL_IP} -p tcp --dport 9735 -j SNAT --to-source {TUN_GATEWAY}
-$ sudo iptables -I FORWARD 1 -d {NODE_LOCAL_IP} -p tcp --dport 9735 -j ACCEPT
-
 
 $ sudo iptables -A INPUT -i eth0 -m state --state NEW -p udp --dport 1194 -j ACCEPT
 $ sudo iptables -A INPUT -i tun+ -j ACCEPT
@@ -258,10 +253,6 @@ Reload the firewall to apply changes
 $ sudo ufw reload
 ```
 **ON YOUR Lightning Network CLIENT_NODE**
-</br>Allow vpn port in the firewall
-```
-$ sudo ufw allow 1192 comment “openvpn”
-```
 Go to your lnd.conf and add the following settings: 
 ```
 [Application Options]
