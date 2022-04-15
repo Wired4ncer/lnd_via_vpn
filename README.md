@@ -277,10 +277,9 @@ This setup could be improved by spliting the TOR traffic not to use VPN and exit
 
 You can contact me on **Telegram [@wiredancer](https://t.me/wiredancer)**
 
+If you found the guide helpful, why not send me few sats so I can see it was helpful to someone! 
 
-
-<a href="https://ibb.co/YdFyjw5"><img src="https://i.ibb.co/VCcQB5F/zbd-tips.png" alt="zbd-tips" border="0"></a>
-
+<a href="https://lntxbot.com/@wiredancer"><img src="https://i.ibb.co/rstq310/lntxbot-qr.png" alt="lntxbot-qr" border="0"></a>
 
 Thank you for following up with the setup. I hope you will find it as beneficial as I did.
 </br>Happy routing!
