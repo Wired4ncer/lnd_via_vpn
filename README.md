@@ -122,9 +122,12 @@ and add following line to the end of the configuration.
 `/swapfile swap swap defaults 0 0`
 
 
-Install `htop` for system monitoring.
+Install `htop` for system monitoring and fail2ban to protect your ssh from brute force attempts.
 ```
 $ sudo apt install htop
+$ sudo apt install fail2ban
+$ sudo systemctl start fail2ban
+$ sudo systemctl enable fail2ban
 ```
 Check your swap is running correctly by running it.
 ```
