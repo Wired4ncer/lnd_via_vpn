@@ -230,7 +230,8 @@ $ sudo iptables -A INPUT -i tun+ -j ACCEPT
 $ sudo iptables -A FORWARD -i tun+ -j ACCEPT
 $ sudo iptables -A FORWARD -i tun+ -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 $ sudo iptables -A FORWARD -i eth0 -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT
-$ sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+$ sudo iptables -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+$ sudo iptables -A POSTROUTING -d 10.8.0.0/24 -o tun0 -j MASQUERADE
 $ sudo iptables -A OUTPUT -o tun+ -j ACCEPT
 ```
 The first section of the iptables is needed in order for the server to route the traffic to your node. The second section is general settings of iptables for VPN servers. As iptables are outside of my good understanding I would appreciate if I can get feedback whether this settings should be changed somehow. Thank you
