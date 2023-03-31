@@ -301,11 +301,11 @@ fi
 ```
 Give it executable permission.
 ```
-chmod +x vpn_reconnect.sh
+$ chmod +x vpn_reconnect.sh
 ```
 when this is done you can go back to crontab and set up timer to run the script. I usually put my script in /usr/local/bin but you can have any anywhere you prefer.
 ```
-mv vpn_reconnect.sh /usr/local/bin/
+$ mv vpn_reconnect.sh /usr/local/bin/
 ```
 
 Edit crontab and add the task.
@@ -316,7 +316,10 @@ $ crontab -e
 ```
 This should get the script to run every 5 minutes to keep connection up.
 
-
+You can check if the crontab is working as expected by running the following:
+```
+$ sudo journalctl -t VPN_Reconnect -f
+```
 
 ## End notes
 This setup could be improved by spliting the TOR traffic not to use VPN and exit the node directly. This way there would be redundancy in case the VPN server stops working for some reason, but at the moment I'm not sure how to set it up correcly. I will update the guide once I figure it out, or I'm very open to receive suggestions from any of you.
