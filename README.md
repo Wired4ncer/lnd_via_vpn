@@ -279,7 +279,7 @@ Restart your node. If everything is working as intended your node should connect
 
 **OPTIONAL:**
 
-If you are having issues with OpenVpn not reconnecting when the internet drop, you can make the following script and put it in the crontab to execute every few minutes. It will check ping towards google.com (you can change it to anything) and if the connection drops it will restart your openvpn service to reconnect. 
+If you are having issues with OpenVpn not reconnecting when the internet drop, you can make the following script on the **CLIENT** machine and put it in the crontab to execute every few minutes. It will check ping towards google.com (you can change it to anything) and if the connection drops it will restart your openvpn service to reconnect. 
 
 Create vpn_reconnect.sh file and paste following (don't forget to change YOUR_SERVICE_NAME accordingly:
 ```
