@@ -304,6 +304,9 @@ Give it executable permission.
 chmod +x vpn_reconnect.sh
 ```
 when this is done you can go back to crontab and set up timer to run the script. I usually put my script in /usr/local/bin but you can have any anywhere you prefer.
+```
+mv vpn_reconnect.sh /usr/local/bin
+```
 
 Edit crontab and add the task.
 ```
