@@ -326,7 +326,11 @@ This setup could be improved by spliting the TOR traffic not to use VPN and exit
 
 You can contact me on **Telegram [@wiredancer](https://t.me/wiredancer)**
 
-If you found the guide helpful, why not **[send me a beer](https://getalby.com/p/wiredancer)** so I can see it was helpful to someone! 
+If you found the guide helpful, why not 
+</br>**[send me few sats](https://getalby.com/p/wiredancer)**!
+
+
+<img src="https://i.ibb.co/xF7zGzq/QR-Code-alby.png" alt="QR-Code-alby" border="0">
 
 
 
