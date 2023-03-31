@@ -276,8 +276,10 @@ tor.skip-proxy-for-clearnet-targets=true
 ```
 Restart your node. If everything is working as intended your node should connect though the VPN server and route all its traffic through it. It should also be reachable from cleatnet on your servers public ip and port 9735. You can test this out by running `$ nc -vz {YOUR.SERVER.IP} 9735` on an outside machine to see if your node can get reached from internet.
 
+
 **OPTIONAL:**
-If you are having issues with OpenVpn not reconnecting when the internet drop, you can make the following script and put it in crontab to execute every few minutes. It check ping towards google.com (you can change it to anything) and if the connection drops it will stop and start your openvpn service to reconnect. 
+
+If you are having issues with OpenVpn not reconnecting when the internet drop, you can make the following script and put it in the crontab to execute every few minutes. It will check ping towards google.com (you can change it to anything) and if the connection drops it will restart your openvpn service to reconnect. 
 
 Create vpn_reconnect.sh file and paste following (don't forget to change YOUR_SERVICE_NAME accordingly:
 ```
@@ -293,12 +295,12 @@ else
         logger -t VPN_Reconnect VPN-Tunnel "tun0" is working with internet connection
 fi
 ```
-when this is done you can go back to crontab and set up timer to run the script. I usually put my script in /usr/local/bin but you can have any anywhere you prefer.
-
 Give it executable permission.
 ```
 chmod +x vpn_reconnect.sh
 ```
+when this is done you can go back to crontab and set up timer to run the script. I usually put my script in /usr/local/bin but you can have any anywhere you prefer.
+
 Edit crontab and add the task.
 ```
 $ crontab -e
