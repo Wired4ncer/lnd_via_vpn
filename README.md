@@ -330,7 +330,7 @@ If you found the guide helpful, why not
 </br>**[send me few sats](https://getalby.com/p/wiredancer)**!
 
 
-<img src="https://i.ibb.co/xF7zGzq/QR-Code-alby.png" alt="QR-Code-alby" border="0">
+<a href=https://getalby.com/p/wiredancer><img src="https://i.ibb.co/xF7zGzq/QR-Code-alby.png" alt="QR-Code-alby" border="0">
 
 
 
