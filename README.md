@@ -243,13 +243,13 @@ Get the IP tables to persist through restart, choose yes and yes when asked to s
 
 ```
 $ sudo apt install iptables-persistent netfilter-persistent
+$ netfilter-persistent save
+$ netfilter-persistent start
+$ netfilter-persistent enable
 ```
 
 Other commands that might be useful for operating with iptables persistence **(Not required!)**: 
 ```
-$ netfilter-persistent save
-$ netfilter-persistent start
-
 $ iptables-save  > /etc/iptables/rules.v4
 $ ip6tables-save > /etc/iptables/rules.v6
 
@@ -275,6 +275,39 @@ tor.streamisolation=false
 tor.skip-proxy-for-clearnet-targets=true
 ```
 Restart your node. If everything is working as intended your node should connect though the VPN server and route all its traffic through it. It should also be reachable from cleatnet on your servers public ip and port 9735. You can test this out by running `$ nc -vz {YOUR.SERVER.IP} 9735` on an outside machine to see if your node can get reached from internet.
+
+**OPTIONAL:**
+If you are having issues with OpenVpn not reconnecting when the internet drop, you can make the following script and put it in crontab to execute every few minutes. It check ping towards google.com (you can change it to anything) and if the connection drops it will stop and start your openvpn service to reconnect. 
+
+Create vpn_reconnect.sh file and paste following (don't forget to change YOUR_SERVICE_NAME accordingly:
+```
+#!/bin/sh
+
+# Check vpn-tunnel "tun0" and ping google DNS if internet connection work
+if  [ "$(ping -I tun0 -q -c 1 -W 1 8.8.8.8 | grep '100% packet loss' )" != "" ]; then
+        logger -t VPN_Reconnect VPN-Tunnel "tun0" has got no internet connection -> restart it
+        systemctl stop openvpn-client@YOUR_SERVICE_NAME.service
+        sleep 3
+        systemctl start openvpn-client@YOUR_SERVICE_NAME.service
+else
+        logger -t VPN_Reconnect VPN-Tunnel "tun0" is working with internet connection
+fi
+```
+when this is done you can go back to crontab and set up timer to run the script. I usually put my script in /usr/local/bin but you can have any anywhere you prefer.
+
+Give it executable permission.
+```
+chmod +x vpn_reconnect.sh
+```
+Edit crontab and add the task.
+```
+$ crontab -e
+
+*/5 * * * * /usr/local/bin/vpn_reconnect.sh
+```
+This should get the script to run every 5 minutes to keep connection up.
+
+
 
 ## End notes
 This setup could be improved by spliting the TOR traffic not to use VPN and exit the node directly. This way there would be redundancy in case the VPN server stops working for some reason, but at the moment I'm not sure how to set it up correcly. I will update the guide once I figure it out, or I'm very open to receive suggestions from any of you.
