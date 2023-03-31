@@ -318,7 +318,7 @@ This should get the script to run every 5 minutes to keep connection up.
 
 You can check if the crontab is working as expected by running the following:
 ```
-$ sudo journalctl -t VPN_Reconnect -f
+$ sudo journalctl -t vpn_Reconnect -f
 ```
 
 ## End notes
