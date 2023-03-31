@@ -1,4 +1,4 @@
-# Securely connect lightning node to clear net through self hosted VPN server.
+# Securely connect lightning node to clear net through self hosted OpenVPN server.
 
 ## Pre-word:
 Lightning network is growing in popularity and new nodes are spawning daily. That is great news for decentralization of the network, more liquidity and exposure in general, but there is also a downside to it. As most new users start with pre compiled lightning node solutions like MyNode, Umbrel or RaspiBlitz they all automatically connect through TOR network. With more than ten thousand such nodes its uncertain whether TOR network can handle all the new traffic in a reliable manner in the future. We can already see delays and occasional dropouts of circuits in certain geolocations. That is not good for TOR users and neither for reliability of Lightning Network in general. I would like to propose for those of you who find TOR connection not reliable enough, for serious Lightning Node operators, a solution to use your own self hosted VPN server to use as a gateway for your node, without compromising its security.
